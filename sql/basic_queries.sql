@@ -27,6 +27,12 @@ FROM Customers;
 
 
 
+-- Selecionar os nomes dos clientes e dos funcionários.
+SELECT Customers.CustomerName, EmployeeID 
+FROM Customers, Orders
+
+
+
 -- Selecionar na tabela Costumers a id, nome e pais de todos os clientes.
 SELECT CustomerID, CustomerName, Country
 FROM Customers;
