@@ -198,7 +198,24 @@ FROM OrderDetails JOIN Products ON OrderDetails.ProductID = Products.ProductID
 GROUP BY Products.ProductName
 HAVING SUM(OrderDetails.Quantity) > (SELECT AVG(OrderDetails.Quantity) 
                                      FROM OrderDetails);
-									 
+
+
+
+-- Consultar todos os produtos que possuem preços acima da média.
+SELECT ProductName, Price  
+FROM Products 
+WHERE Price > (SELECT AVG(Price)  
+               FROM Products)
+
+
+
+-- Consultar os nomes de todos os funcionários que fizeram vendas entre as datas '1996-09-09' e '1996-12-27'.
+WITH temp_tbl AS (SELECT * 
+                  FROM Orders 
+                  WHERE OrderDate BETWEEN '1996-09-09' AND '1996-12-27')
+SELECT Employees.FirstName, temp_tbl.OrderDate
+FROM Employees JOIN temp_tbl ON Employees.EmployeeID = temp_tbl.EmployeeID
+
 
 
 -- Consultar as ids das vendas e os nomes dos funcionários que comecem com a letra 'A' .
