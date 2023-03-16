@@ -237,7 +237,6 @@ WHERE Products.SupplierID = temp_table.SupplierID;
 
 
 
-
 -- Consultar o nome e a quantidade de todos os produtos que tenham a quantidade de vendas acima da média.
 WITH tmp_table AS (SELECT AVG(Quantity) AS 'Average'
 FROM OrderDetails)
@@ -248,10 +247,44 @@ GROUP BY Products.ProductName
 HAVING SUM(OrderDetails.Quantity) > tmp_table.Average
 
 
+
 -- Consulte todos os fornecedores cujos nomes começam com 'S' e 'P'. Use UNION na consulta.
 WITH tmp_s AS (SELECT * FROM Suppliers WHERE Suppliers.SupplierName LIKE 'S%'),
      tmp_p AS (SELECT * FROM Suppliers WHERE Suppliers.SupplierName LIKE 'P%')
-
 SELECT * FROM tmp_s
 UNION
 SELECT * FROM tmp_p
+
+
+
+-- O w3scools não permite o uso de window functions, então tive que usar outro.
+-- As consultas abaixo foram feitas no website https://www.programiz.com/sql/online-compiler/
+-- Não pude fazer consutas mais elaboradas pois o banco de dados é muito pequeno.
+
+
+
+-- Atribuir a cada linha da tabela Shippings um número
+SELECT *, 
+       ROW_NUMBER() OVER() AS 'Linha'
+FROM Shippings
+
+
+
+-- Criar um ranking de idades dos clientes crescentemente usando OVER.
+SELECT first_name, last_name, age, 
+       DENSE_RANK() OVER(ORDER BY age) AS 'AGE_RANKING' 
+FROM Customers
+
+
+
+-- Criar uma coluna do tipo 'lag' com a idade do cliente registrado uma linha acima.
+SELECT first_name, last_name, age, 
+       LAG(age, 1, 0) OVER() AS 'previous_age'
+FROM Customers;
+
+
+
+-- Criar uma coluna do tipo 'lead' com a idade do cliente registrado uma linha abaixo.
+SELECT first_name, last_name, age, 
+       LEAD(age, 1, 0) OVER() AS 'next_age'
+FROM Customers;
