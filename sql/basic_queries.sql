@@ -9,6 +9,12 @@ FROM Customers;
 
 
 
+-- Selecionar os cinco primeiros nomes dos clientes.
+SELECT TOP 5 CustomerName  
+FROM Customers;
+
+
+
 -- Descobrir quantas linhas há na tabela de clientes.
 SELECT COUNT(*)
 FROM Customers;
@@ -163,6 +169,13 @@ SELECT Products.ProductName, AVG(OrderDetails.Quantity)
 FROM OrderDetails JOIN Products ON OrderDetails.ProductID = Products.ProductID
 GROUP BY Products.ProductName 
 HAVING AVG(OrderDetails.Quantity) > 40;
+
+
+
+-- Consultar todos os clientes que moram na Brasil, Canada e Dinamarca.
+SELECT * 
+FROM Customers 
+WHERE Country IN ('Brazil', 'Canada', 'Denmark ');
 
 
 
