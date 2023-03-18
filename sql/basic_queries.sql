@@ -179,6 +179,60 @@ WHERE Country IN ('Brazil', 'Canada', 'Denmark ');
 
 
 
+-- Consultar todos os clientes que não moram na Brasil, Canada e Dinamarca.
+SELECT * 
+FROM Customers 
+WHERE Country NOT IN ('Brazil', 'Canada', 'Denmark ');
+
+
+
+-- Selecionar todos os clientes que moram no mesmo país de seus fornecedores.
+SELECT * 
+FROM Customers 
+WHERE Country IN (SELECT DISTINCT Country 
+                  FROM Suppliers)
+
+
+
+-- Selecione todos os produtos com preços entre 10 e 20.
+SELECT * 
+FROM Products 
+WHERE Price BETWEEN 10 AND 20
+
+
+
+-- Selecionar todos os produtos com preços menores que 10 e maiores que 20.
+SELECT * 
+FROM Products 
+WHERE Price NOT BETWEEN 10 AND 20
+
+
+
+-- Selecione todos os produtos com preços entre 10 e 20. Além disso, exclua produtos de CategoryID iguais a 1, 2 e 3.
+SELECT * 
+FROM Products 
+WHERE (Price BETWEEN 10 AND 20) AND (CategoryID NOT IN (1, 2, 3))
+-- ou 
+SELECT * 
+FROM Products 
+WHERE (Price BETWEEN 10 AND 20) AND (CategoryID NOT BETWEEN 1 AND 3)
+
+
+
+-- Selecionar todos os produtos com nomes entre 'Carnarvon Tigers' e 'Mozzarella di Giovanni'.
+SELECT * 
+FROM Products 
+WHERE ProductName BETWEEN 'Carnarvon Tigers' AND 'Mozzarella di Giovanni'
+
+
+
+-- Selecionar todos os produtos comprados entre  '01-July-1996' e '31-July-1996'.
+SELECT * 
+FROM Orders 
+WHERE OrderDate BETWEEN #01-July-1996# AND #31-July-1996#
+
+
+
 -- Exibir o nome do cliente, do produto e a quantidade que cada cliente comprou.
 SELECT Customers.CustomerName, Products.ProductName, OrderDetails.Quantity
 FROM OrderDetails JOIN Orders    ON Orders.OrderID = OrderDetails.OrderID
