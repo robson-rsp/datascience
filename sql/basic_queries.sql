@@ -21,6 +21,20 @@ FROM Customers;
 
 
 
+-- Consultar qual é o produto mais barato da tabela Products.
+SELECT ProductName, Price 
+FROM Products
+WHERE Price = (SELECT MIN(Price) FROM Products);
+
+
+
+-- Consultar qual é o produto mais caro da tabela Products.
+SELECT ProductName, Price 
+FROM Products
+WHERE Price = (SELECT MAX(Price) FROM Products);
+
+
+
 -- Selecionar todas as colunas de duas tabelas
 SELECT * 
 FROM Customers, Categories;
