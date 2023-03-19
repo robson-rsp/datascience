@@ -161,6 +161,13 @@ ORDER BY COUNT(CustomerID) DESC, Country;
 
 
 
+-- Selecionar o segundo produto mais caro
+SELECT MAX(Price) 
+FROM Products 
+WHERE Price NOT IN (SELECT MAX(Price) AS price FROM Products)
+
+
+
 -- Consultar o nome de todos os produtos e as quantidades em todas as compras registradas.
 SELECT Products.ProductName, OrderDetails.Quantity  
 FROM OrderDetails JOIN Products ON OrderDetails.ProductID = Products.ProductID;
