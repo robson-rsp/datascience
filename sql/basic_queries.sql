@@ -376,3 +376,15 @@ FROM Customers;
 SELECT first_name, last_name, age, 
        LEAD(age, 1, 0) OVER() AS 'next_age'
 FROM Customers;
+
+
+
+-- Consultar os clientes que mais gastam em cada pais
+WITH tmp_table AS (SELECT customers.customerName, 
+                   customers.country, 
+                   payments.amount, 
+                   ROW_NUMBER() OVER(PARTITION BY customers.country ORDER BY payments.amount DESC) AS ranking 
+                   FROM customers INNER JOIN payments ON customers.customerNumber = payments.customerNumber)
+SELECT * 
+FROM tmp_table 
+WHERE ranking = 1;
