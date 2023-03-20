@@ -1,1 +1,1 @@
-Utilizei o website https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all para fazer as consultas do arquivo "basic_queries.sql".
+Utilizei o banco de dados 'classicmodels' do website 'https://www.mysqltutorial.org/mysql-sample-database.aspx'. Também usei o MySQL 8.0.32.
