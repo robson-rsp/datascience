@@ -349,7 +349,7 @@ WHERE employees.firstName LIKE "A%";
 ------------------------------ WINDOW FUNCTIONS ------------------------------
 -- Atribuir a cada linha da tabela 'employees' um número.
 SELECT *, 
-       ROW_NUMBER() OVER() AS 'line'
+       ROW_NUMBER() OVER() AS 'row'
 FROM employees;
 
 
@@ -365,10 +365,22 @@ FROM customers INNER JOIN payments ON customers.customerNumber = payments.custom
 -- Criar uma coluna do tipo 'lag' com o número da ordem do dia anterior.
 SELECT orderNumber, 
        orderDate, 
-       LAG(orderDate, 1) OVER() AS 'previous_date_order'
+       LAG(orderDate, 1, 0) OVER() AS 'previous_date_order' 
 FROM orders 
 ORDER BY orderDate;
 -- Obs. Não há necessidade de se ordenar as datas.
+-- Obs. A função LAG recebe como parâmetros a coluna alvo, o tamanho do lag e o valor padrão no lugar de um null.
+
+
+
+-- Criar uma coluna do tipo 'lead' com o número da ordem do dia seguinte.
+SELECT orderNumber, 
+       orderDate, 
+       LEAD(orderDate, 1, 0) OVER() AS 'posterior_date_order' 
+FROM orders 
+ORDER BY orderDate;
+-- Obs. Não há necessidade de se ordenar as datas.
+-- Obs. A função LEAD recebe como parâmetros a coluna alvo, o tamanho do lag e o valor padrão no lugar de um null.
 
 
 
@@ -379,3 +391,34 @@ WITH tbl_ranking_price AS (SELECT productName, buyPrice, ROW_NUMBER() OVER() AS 
 SELECT productName, buyPrice 
 FROM tbl_ranking_price 
 WHERE ranking_price = 2;
+
+
+
+-- Consultar os clientes que mais gastam em cada pais.
+WITH tbl_ranking_amount AS (SELECT customers.country, 
+                            customers.customerName, 
+                            payments.amount, 
+                            DENSE_RANK() OVER(PARTITION BY customers.country ORDER BY payments.amount DESC) AS 'ranking_amount' 
+                            FROM customers INNER JOIN payments ON customers.customerNumber = payments.customerNumber 
+                            ORDER BY customers.country)
+SELECT country, 
+       customerName, 
+       amount 
+FROM tbl_ranking_amount 
+WHERE ranking_amount = 1;
+
+
+
+
+-- Consultar os percentis 25%, 50% e 75% da quantidade de gastos dos clientes.
+WITH tbl_rows AS (SELECT customers.customerName, 
+                  payments.amount, 
+                  ROW_NUMBER() OVER(ORDER BY payments.amount DESC) AS 'row' 
+                  FROM customers INNER JOIN payments ON customers.customerNumber = payments.customerNumber), 
+     tbl_size AS (SELECT COUNT(customers.customerNumber) AS 'size' 
+                  FROM customers INNER JOIN payments ON customers.customerNumber = payments.customerNumber) 
+SELECT tbl_rows.customerName, 
+       tbl_rows.amount, 
+       tbl_rows.row 
+FROM tbl_rows, tbl_size 
+WHERE tbl_rows.row IN (round(0.25 * tbl_size.size), round(0.50 * tbl_size.size), round(0.75 * tbl_size.size));
