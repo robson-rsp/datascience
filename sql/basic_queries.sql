@@ -9,9 +9,21 @@ LIMIT 1;
 
 
 
+-- Descobrir os tipos de dados das colunas de uma tabela.
+SELECT DATA_TYPE 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE (TABLE_NAME   = 'orders');
+
+
+
 -- Selecionar as informações principais de todos os clientes.
 SELECT * 
 FROM customers;
+
+
+
+-- Consultar a data e a hora atual.
+SELECT NOW();
 
 
 
@@ -283,6 +295,17 @@ WITH tbl_names_a AS (SELECT * FROM employees WHERE firstName LIKE "A%"),
 SELECT * FROM tbl_names_a
 UNION
 SELECT * FROM tbl_names_p;
+
+
+
+-- Calcular a proporção de clientes por estado.
+WITH tbl_size   AS (SELECT COUNT(*) AS size
+                    FROM customers), 
+     tbl_states AS (SELECT state, COUNT(*) AS amount 
+                    FROM customers 
+                    GROUP BY state)
+SELECT tbl_states.state, ((tbl_states.amount / tbl_size.size) * 100) AS 'proportion(%)' 
+FROM tbl_states, tbl_size;
 
 
 
