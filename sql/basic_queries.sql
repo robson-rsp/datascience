@@ -104,6 +104,13 @@ WHERE (country = 'USA') AND (state LIKE 'N%');
 
 
 
+-- Consultar quais nomes de clientes começam com 'J', 'P' ou 'T'.
+SELECT customerName 
+FROM customers
+WHERE customerName LIKE '[JPT]%';
+
+
+
 ------------------------------ LISTAS ------------------------------
 -- Consultar qual é o segundo preço mais alto dos automóveis.
 SELECT MAX(buyPrice) AS '2th_expensive'
