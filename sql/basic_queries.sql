@@ -439,7 +439,6 @@ WHERE ranking_amount = 1;
 
 
 
-
 -- Consultar os percentis 25%, 50% e 75% da quantidade de gastos dos clientes.
 WITH tbl_rows AS (SELECT customers.customerName, 
                   payments.amount, 
