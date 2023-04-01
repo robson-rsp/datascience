@@ -1,4 +1,3 @@
-![GitHub](https://img.shields.io/github/license/robson-rsp/datascience)
 # Ciência de dados
 
 # Sobre
@@ -18,3 +17,5 @@ Os conjuntos de dados foram extraídos do Kaggle e todo o pipeline foi feito no 
 * TensorFlow
 * Pandas
 * Seaborn
+___
+**Autor:** Robson Pedroso
