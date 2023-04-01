@@ -1,4 +1,3 @@
-![GitHub](https://img.shields.io/github/license/robson-rsp/datascience)
 # Ciência de dados
 
 # Sobre
