@@ -19,5 +19,7 @@ Os conjuntos de dados foram extraídos do Kaggle e todo o pipeline foi feito no 
 * TensorFlow
 * Pandas
 * Seaborn
+* PySpark
+* Databricks
 ___
 **Autor:** Robson Pedroso
